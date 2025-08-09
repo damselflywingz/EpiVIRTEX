@@ -1,4 +1,7 @@
-![EpiVIRTEX logo](https://github.com/damselflywingz/EpiVIRTEX/EpiVIRTEX_logo.svg)
+<p align="center">
+<img src="https://github.com/damselflywingz/EpiVIRTEX/blob/master/EpiVIRTEX_logo.svg" alt="EpiVIRTEX logo" width="300"/>
+</p>
+
 # Epigenetic Viral Interference through RNA Triplex Exploration (EpiVIRTEX)
 
 ## *Introduction*
@@ -54,3 +57,4 @@ To get started:
 Amber Paulson - <a href="https://twitter.com/dragonflywingz" target="_blank">@Dragonflywingz </a> - Amber [dot] Rose [dot] Paulson [at] gmail [dot] com
 
 Project Link: [https://github.com/damselflywingz/EpiVIRTEX/](https://github.com/damselflywingz/EpiVIRTEX)
+
