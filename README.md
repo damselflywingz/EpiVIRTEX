@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/damselflywingz/EpiVIRTEX/blob/master/EpiVIRTEX_logo.svg" alt="EpiVIRTEX logo" width="300"/>
+<img src="https://github.com/damselflywingz/EpiVIRTEX/blob/master/EpiVIRTEX_logo.svg" alt="EpiVIRTEX logo" width="200"/>
 </p>
 
 # Epigenetic Viral Interference through RNA Triplex Exploration (EpiVIRTEX)
