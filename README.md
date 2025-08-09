@@ -2,7 +2,7 @@
 <img src="https://github.com/damselflywingz/EpiVIRTEX/blob/master/EpiVIRTEX_logo.svg" alt="EpiVIRTEX logo" width="200"/>
 </p>
 
-# Epigenetic Viral Interference through RNA Triplex Exploration (EpiVIRTEX)
+# Epigenetic Viral Interference through RNA Triplex Exploration
 
 ## *Introduction*
 This README provides scripts and other resources used for data analysis and visualization from: <i>Paulson A.R., Montoya V., and Joy, J.B. 2025. Functional  genomic analysis reveals mechanisms of epigenetic interference in SARS-CoV-1 and SARS-CoV-2. (submitted)</i>. 
