@@ -1,3 +1,4 @@
+![EpiVIRTEX logo](https://github.com/damselflywingz/EpiVIRTEX/EpiVIRTEX_logo.svg)
 # Epigenetic Viral Interference through RNA Triplex Exploration (EpiVIRTEX)
 
 ## *Introduction*
