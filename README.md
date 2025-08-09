@@ -1,7 +1,7 @@
 # Epigenetic Viral Interference through RNA Triplex Exploration (EpiVIRTEX)
 
 ## *Introduction*
-This README provides scripts and other resources used for data analysis and visualization used in: <i>Paulson A.R., Montoya V., and Joy, J.B. 2025. Functional  genomic analysis reveals mechanisms of epigenetic interference in SARS-CoV-1 and SARS-CoV-2. (submitted)</i>. 
+This README provides scripts and other resources used for data analysis and visualization from: <i>Paulson A.R., Montoya V., and Joy, J.B. 2025. Functional  genomic analysis reveals mechanisms of epigenetic interference in SARS-CoV-1 and SARS-CoV-2. (submitted)</i>. 
 
 For more information about the EpiVIRTEX pipeline please see the materials and methods of the manuscript.
 
@@ -13,15 +13,12 @@ For more information about the EpiVIRTEX pipeline please see the materials and m
 * [IQ-TREE 2](https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.blastn_application_options/) was used for phylogenetic reconstructions
 * [ggplot2](https://ggplot2.tidyverse.org/) was used to visualize the results of our functional genomics analysis
 
-
 ## Getting Started
 
 The analysis involves:
 
-* * Calculating counts per million (CPM) coverage of viral small RNA-sequencing count data downloaded from the [GSE148729](https://www.ncbi.nlm.nih.gov/search/all/?term=GSE148729);
-* Using the R Stats Package (version 4.2.1) to run permutation for testing non-random association between TFOs of concern and known genomic recombination breakpoints and hotspots reported in [Lytras et al. 2022](https://academic.oup.com/gbe/article/14/2/evac018/6524630);
-* Creating heatmap using ggplot2 (version 3.4.4) for results of host homology searches by short-BLASTn; and
-* Combined visualization of small RNA-seq coverage, synonymous-site conservation analysis and host homology searches with ggplot2 in R.
+* Calculating counts per million (CPM) coverage of viral small RNA-sequencing count data downloaded from the [GSE148729](https://www.ncbi.nlm.nih.gov/search/all/?term=GSE148729);
+* Using the R Stats Package to run permutation for testing non-random association between TFOs of concern and known genomic recombination breakpoints and hotspots reported in [Lytras et al. 2022](https://academic.oup.com/gbe/article/14/2/evac018/6524630);
 
 To get started:
 
