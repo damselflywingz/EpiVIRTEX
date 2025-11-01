@@ -59,7 +59,7 @@ This analysis involves:
 This analysis involves:
 
 * Visualization of gene-target lists in Venn Diagrams combining three different SARS-CoV-2 transcriptome studies and enrichment analysis.
-* See the manuscript and refer to [EpiVIRTEX/Scripts/20240721_Script_DE_metaAnalysis_venn.R](https://github.com/damselflywingz/EpiVIRTEX/tree/main/Scripts/20240721_Script_DE_metaAnalysis_venn.R) for more information.
+* See the manuscript and refer to [EpiVIRTEX/Scripts/20251101_DEG_Venn_Enrichment_PaulsonAR_2025.R](https://github.com/damselflywingz/EpiVIRTEX/tree/main/Scripts/20251101_DEG_Venn_Enrichment_PaulsonAR_2025.R) for more information.
 
 ## Contact
 
