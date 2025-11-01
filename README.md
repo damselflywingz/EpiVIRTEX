@@ -67,3 +67,7 @@ Amber Paulson - <a href="https://twitter.com/dragonflywingz" target="_blank">@Dr
 
 Project Link: [https://github.com/damselflywingz/EpiVIRTEX/](https://github.com/damselflywingz/EpiVIRTEX)
 
+## Licensing and copyright
+
+Licensed under Creative Commons Attribution 4.0 Internatinal (CC-BY-NC 4.0)
+[https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/)
