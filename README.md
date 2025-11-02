@@ -74,7 +74,7 @@ This analysis involves:
 
 ## Contact
 
-Amber Paulson - <a href="https://twitter.com/dragonflywingz" target="_blank">@Dragonflywingz </a> - Amber [dot] Rose [dot] Paulson [at] gmail [dot] com
+Amber Paulson - Amber [dot] Rose [dot] Paulson [at] gmail [dot] com
 
 Project Link: [https://github.com/damselflywingz/EpiVIRTEX/](https://github.com/damselflywingz/EpiVIRTEX)
 
