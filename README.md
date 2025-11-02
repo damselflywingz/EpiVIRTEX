@@ -32,7 +32,7 @@ To get started:
 The analysis involves:
 
 * Calculating counts per million (CPM) coverage of viral small RNA-sequencing count data downloaded from the [GSE148729](https://www.ncbi.nlm.nih.gov/search/all/?term=GSE148729);
-* To avoid processing of raw reads the count data from bedtools genomecov for each of the [Wyler et al. 2021](https://www.cell.com/iscience/fulltext/S2589-0042(21)00119-X?elqTrackId=a5fb8ddc3ea24283adca366859fed54e) small RNA-seq libraries have also been provided in the EpiVIRTEX/data/ folder.
+* To avoid processing of raw reads, the count data from bedtools genomecov for each of the [Wyler et al. 2021](https://www.cell.com/iscience/fulltext/S2589-0042(21)00119-X?elqTrackId=a5fb8ddc3ea24283adca366859fed54e) small RNA-seq libraries have also been provided in the EpiVIRTEX/data/ folder.
 * See the manuscript and refer to [Updated20240121__2022_15_15_script_smallRNA_calu_3_proc_align_quant_S1_and_S2.R](https://github.com/damselflywingz/EpiVIRTEX/tree/main/Scripts/Updated20240121__2022_15_15_script_smallRNA_calu_3_proc_align_quant_S1_and_S2.R) for more information.
  
 ## Prediting microRNA and triplex-forming oligonucleotides from viral sequence
