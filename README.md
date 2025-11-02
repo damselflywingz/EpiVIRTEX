@@ -12,7 +12,7 @@ For more information about the EpiVIRTEX pipeline please see the materials and m
 ## Built With 
 
 * [ViennaRNA](https://www.tbi.univie.ac.at/RNA/), [HuntMi](http://adaa.polsl.pl/agudys/huntmi/huntmi.htm) and [Mature Bayes](https://mirna.imbb.forth.gr/MatureBayes.html) were used to predict microRNA from virus sub-genomic RNA
-* [Triplexator](https://github.com/Gurado/triplexator) was used to predict triplex-forming oligonucleoties from virus genome
+* [Triplexator](https://github.com/Gurado/triplexator) was used to predict triplex-forming oligonucleotides from virus genome
 * [Decipher](http://bioconductor.org/packages/release/bioc/html/DECIPHER.html) was used to create multiple sequence alignments
 * [Synplot2](https://github.com/AndrewFirth12/synplot2) was used for synonymous-site conservation analysis
 * [short-BLASTn](https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.blastn_application_options/) was used for host-homology searches
