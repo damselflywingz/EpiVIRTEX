@@ -24,7 +24,7 @@ For more information about the EpiVIRTEX pipeline please see the materials and m
 To get started:
 
 1. Retrieve the entire https://github.com/damselflywingz/EpiVIRTEX directory, and move it and its contents to your desired location;
-2. Open the Rproject "Paulson_AR_SARS_ncRNA-analysis.Rproj" in RStudio;</li>
+2. Open the R Project "Paulson_AR_SARS_ncRNA-analysis.Rproj" in RStudio;</li>
 3. Follow the scripts provided (see: https://github.com/damselflywingz/EpiVIRTEX/tree/main/Scripts)
 
 ## Small RNA-sequencing analysis
@@ -35,7 +35,7 @@ The analysis involves:
 * To avoid processing of raw reads, the count data from bedtools genomecov for each of the [Wyler et al. 2021](https://www.cell.com/iscience/fulltext/S2589-0042(21)00119-X?elqTrackId=a5fb8ddc3ea24283adca366859fed54e) small RNA-seq libraries have also been provided in the EpiVIRTEX/data/ folder.
 * See the manuscript and refer to [Updated20240121__2022_15_15_script_smallRNA_calu_3_proc_align_quant_S1_and_S2.R](https://github.com/damselflywingz/EpiVIRTEX/tree/main/Scripts/Updated20240121__2022_15_15_script_smallRNA_calu_3_proc_align_quant_S1_and_S2.R) for more information.
  
-## Prediting microRNA and triplex-forming oligonucleotides from viral sequences
+## Predicting microRNA and triplex-forming oligonucleotides from viral sequences
 
 The prediction pipeline involves:
 
@@ -74,11 +74,11 @@ This analysis involves:
 
 ## Contact
 
-Amber Paulson - Amber [dot] Rose [dot] Paulson [at] gmail [dot] com
+Amber Paulson - Amber[dot]Rose[dot]Paulson[at]gmail[dot]com
 
 Project Link: [https://github.com/damselflywingz/EpiVIRTEX/](https://github.com/damselflywingz/EpiVIRTEX)
 
 ## Licensing and copyright
 
-Licensed under Creative Commons Attribution 4.0 Internatinal (CC-BY-NC 4.0)
+Licensed under Creative Commons Attribution 4.0 International (CC-BY-NC 4.0)
 [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/)
