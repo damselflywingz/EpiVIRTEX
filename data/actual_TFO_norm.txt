@@ -1,0 +1,12 @@
+TFO	distance	
+ToC	20.8986	
+ToC	1.3714	
+ToC	13.0822	
+ToC	70.1754	
+ToC	0.0000
+ToC	47.6190	
+Other_TFO	281.6092	
+Other_TFO	204.2842	
+Other_TFO	162.1251	
+Other_TFO	187.3365	
+Other_TFO	122.7106		

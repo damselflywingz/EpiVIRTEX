@@ -1,0 +1,12 @@
+TFO	distance
+ToC	40
+ToC	8
+ToC	50
+ToC	16
+ToC	0
+Other_TFO	539
+Other_TFO	391
+Other_TFO	946
+Other_TFO	716
+Other_TFO	469
+Other_TFO	182
