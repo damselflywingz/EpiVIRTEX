@@ -1,0 +1,4 @@
+Calu3_DE	Lung_DE	COVID19_up
+HADH	-	-
+TMED2	-	-
+COL16A1	-	-

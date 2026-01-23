@@ -1,0 +1,3 @@
+chromosome	start	end	
+nsp3	355	366	
+			

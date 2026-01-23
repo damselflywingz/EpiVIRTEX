@@ -1,0 +1,3 @@
+chromosome	start	end	strand
+nsp2	824	835	+
+			
