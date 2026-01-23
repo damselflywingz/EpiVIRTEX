@@ -1,0 +1,410 @@
+## ------------------------------------------------------------------------
+##
+## Script name: 20250909_Epi-VIRTEX_miRNA_prediction.txt
+##
+## Purpose of script: 
+##
+##   1. predict microRNA (miRNA) from SARS-CoV-2 sub-genomic RNAs
+##   2. identify triplex-forming oligonucleotides (TFOs) in SARS-CoV-2 genome
+##
+##
+##
+## Author: Amber R. Paulson, PhD.
+##
+## Date Created: 2025-09-09
+##
+## Copyright (c) Amber Paulson, 2025 - governed by CC-BY-NC 4.0 - Attribution-NonCommercial 4.0 International
+## see https://creativecommons.org/licenses/by-nc/4.0/ 
+##
+## Email: Amber[dot]Rose[dot]Paulson[at]gmail[dot]com
+## Github: https://github.com/damselflywingz/Epi-VIRTEX 
+##
+## ------------------------------------------------------------------------
+##
+## Notes: 
+## Initial release (May 2020) see: https://github.com/damselflywingz/Model_RNA
+##
+## internal note - this script has been updated from the previous version: "##BACK_UP_Apr27_2021_Amber_Scratch_Workflow_edited_inquiryMB_properinput_Feb14_2021version_Dec21v_extractENSGs.txt"
+## 
+## ------------------------------------------------------------------------
+
+
+##-------------------------------------------------------------------------
+##             			prepare viral sequences  				          -
+##-------------------------------------------------------------------------
+
+# in this example from the paper observed viral sub-genomic RNA (sgRNAs are scanned), however any viral sequence (genome, RNA degradome, etc.) could be scanned this way depending on what is available
+
+# September 8, 2025 downloaded the Kim et al. 2020 dataset (observed sgRNAs) from the USCS Table Browser
+# see - https://genome.ucsc.edu/goldenPath/help/covidBrowserIntro.html
+# for download see - https://genome.ucsc.edu/cgi-bin/hgTables?db=wuhCor1&hgta_group=genes&hgta_track=kimTranscripts&hgta_table=Kim_RNAs
+# Genes and Gene Predictions / Subgenomic Observed / output format: Sequence / Get output: deselect "Introns" and use "one FASTA record per gene"
+
+# 20250908_UCSC_Wuhan_sgRNA_nointron_477.fasta
+
+# use CD-hit to reduce 477 sequences to 153 non-redundant clusters:
+~/tools/cd-hit-v4.8.1-2019-0228/cd-hit -i 20250908_UCSC_Wuhan_sgRNA_nointron_477.fasta -o 20250908_UCSC_Wuhan_sgRNA_nointron_477_cdhit_99.fasta -c .99 -n 5 -M 1000
+
+# chop it up based on our windows 120 nt with 20 nt slider
+
+# (internal note) working in: /mnt2/202509108_UCSC_REDO/20250911_win120_slide20 
+
+~/tools/seqkit sliding -s 20 -W 120 20250908_UCSC_Wuhan_sgRNA_nointron_477_cdhit_99.fasta > 20250911_UCSC_Wuhan_sgRNA_nointron_477_cdhit_99_win120_slide20.fa
+
+# total is 103,139
+
+#use CD-hit to remove redundant sequences at 100 % match
+~/tools/cd-hit-v4.8.1-2019-0228/cd-hit -i 20250911_UCSC_Wuhan_sgRNA_nointron_477_cdhit_99_win120_slide20.fa -o 20250911_UCSC_Wuhan_sgRNA_nointron_477_cdhit_99_win120_slide20_cdhit100.fa -c 1.00 -n 5 -M 1000
+
+# this resulted in 6,707 non-redundant sequences
+
+##-------------------------------------------------------------------------
+##             				RNAfold scanning					          -
+##-------------------------------------------------------------------------
+
+# sep 11/25 working with 20 slide:
+
+RNAfold -p --MEA < 20250911_UCSC_Wuhan_sgRNA_nointron_477_cdhit_99_win120_slide20_cdhit100.fa > 20250911_UCSC_Wuhan_sgRNA_nointron_win120_slide20_nonredundant.RNAfold.out
+
+# parse sequences names with MFE <-20:
+ 
+grep "^>\|([ ]\?[-]\?[[:digit:]]" 20250911_UCSC_Wuhan_sgRNA_nointron_win120_slide20_nonredundant.RNAfold.out > 20250911_UCSC_Wuhan_sgRNA_parseout1
+
+sed 's/>//' 20250911_UCSC_Wuhan_sgRNA_parseout1 | tr '\n' '\t' > 20250911_UCSC_Wuhan_sgRNA_parseout2
+
+sed 's/)\t/\n/g' 20250911_UCSC_Wuhan_sgRNA_parseout2 | sed 's/([ ]\?-/-/' | awk -v OFS="\t" '{print $1,$2,$3}' > 20250911_UCSC_Wuhan_sgRNA_parseout3.txt
+
+# 6707
+
+# tak only those lines less than and EQUAL TO, -20 MFE values:
+
+awk '$3 <= -20' 20250911_UCSC_Wuhan_sgRNA_parseout3.txt > 20250911_UCSC_Wuhan_sgRNA_parseout3_filtered.txt
+
+# 5670 had a significant SS
+# (the sequences are missing the first base, will be fixed below)
+
+# now make the bed file:
+
+awk '$3 <= -20 {print $1"\t"$1}' 20250911_UCSC_Wuhan_sgRNA_parseout3.txt| sed 's/_sliding:/\t/' | sed 's/-/\t/' > 20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal.bed
+
+# without adjusting the bed file, it will be missing the first base:
+
+awk 'BEGIN{OFS="\t"} {$2=$2-1; print}' 20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal.bed > input.2based.bed
+
+# then pull from the main fasta containing the full whole sgRNA sequences:
+
+~/tools/seqkit subseq --bed input.2based.bed ../20250908_UCSC_Wuhan_sgRNA_nointron_477_cdhit_99.fasta > 20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_win120_slide20_2HuntMI.fa
+
+# now 5670 120 nt windows to check if these are pre-miRNAs based on HuntMi virus training set
+
+
+##-------------------------------------------------------------------------
+##          		HuntMi	pre-miRNA predictions					      -
+##-------------------------------------------------------------------------
+
+
+# Sep 11/25 - HuntMi for the 120 windows, working with 5670 RNAs with SS based on the 20 nt scans
+ 
+# the entire Huntmi directory is copied into ~/tools/Sep3_HuntMi_scratch/ so the program must be executed from here and also run using the screen function because it will take several hours to completed
+
+# working in: ~/tools/Sep3_HuntMi_scratch/
+
+# the data file fasta must be located in a sub-directory called "data"
+cp /mnt2/202509108_UCSC_REDO/20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_win120_slide20_2HuntMI.fa ../data/.
+
+# HuntMi Step 1: extract features
+
+# start screen then run the following (no need to set path for the input the program will search "data/"):
+
+python extractFeatures.py 20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_win120_slide20_2HuntMI.fa
+
+# advise to run this on screen because can take around 14 hours to predict 11,340 features.
+
+screen
+run job
+
+# deattach the screen (ctrl+a then ctrl+d)
+
+# to reattach after
+screen -ls
+screen -r "job id"
+
+python classify.py virus.model 20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_win120_slide20_2HuntMI.fa.arff
+
+# with the corrected fasta we get 223 predicted pre-miRNAs, 5,447 do not have features = 5,670 correct total
+
+# make the fasta in the folder:
+~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20
+
+paste -d "\t" <(grep "^>" ~/tools/Sep3_HuntMi_scratch/data/20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_win120_slide20_2HuntMI.fa| tr -d ">") ~/tools/Sep3_HuntMi_scratch/results/20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_win120_slide20_2HuntMI.fa.arff.predictions > step1.txt
+
+# 5670
+
+# try removing ">" from the patterns file
+awk '$3==1 {print $1 $2}' step1.txt > 20250911_win120_slide20_UCSC_REDO_predictions_ids7.txt #223
+
+# need to remove the space in the original fasta file (make a copy without space) as seqkit doesn't like spaces in the header
+
+tr -d ' ' <~/tools/Sep3_HuntMi_scratch/data/20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_win120_slide20_2HuntMI.fa > ~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_2HuntMI_nospaceheader.fa
+
+# Just to be quicker I converted this to RNA and then uploaded the fasta to the MatureBayes and copied the result
+~/tools/seqkit seq --dna2rna ~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO//Slide20/20250911_UCSC_Wuhan_win120_slide20_REDO_pre-mirna_2MatureBayes.fa > ~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/20250911_UCSC_Wuhan_win120_slide20_REDO_pre-mirna_2MatureBayesRNA.fa
+
+
+##-------------------------------------------------------------------------
+##          		Mature Bayes microRNA predictions					  -
+##-------------------------------------------------------------------------
+
+
+# before going to MatureBayes webserver, may need to the auto-wrap in the fasta file so the sequence is all on one line before uploading
+
+~/tools/seqkit	grep -f	~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/20250911_win120_slide20_UCSC_REDO_predictions_ids7.txt	~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/20250911_UCSC_Wuhan_sgRNA_parseout3_filtered_20kcal_2HuntMI_nospaceheader.fa	>	~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/20250911_UCSC_Wuhan_win120_slide20_REDO_pre-mirna_2MatureBayes.fa
+
+# worked 223 sequences September 2025 this file was screened with MB
+
+#Just to be	quicker	I converted	this to	RNA	and	then uploaded the fasta	to the MatureBayes and copied the result
+~/tools/seqkit	seq	--dna2rna	~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/	20250911_UCSC_Wuhan_win120_slide20_REDO_pre-mirna_2MatureBayes.fa > ~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/20250911_UCSC_Wuhan_win120_slide20_REDO_pre-mirna_2MatureBayesRNA.fa
+
+
+##-------------------------------------------------------------------------
+##          		Triplexator: TFO prediction						      -
+##-------------------------------------------------------------------------
+
+# triplexator was used to search the fasta file from the SARS-CoV-2 reference genome (Accession: NC_045512.2) (minus polyA tail region) against the database of human enhancer sequences from Enhancer Atlas 1 (downloaded on January 23, 2021). 
+
+#  current iteration of the analysis used minimum length cut-off 12:
+
+# use seqkit sliding with 10 bp step and 22 length
+~/tools/seqkit sliding -s 10 -W 22 GCF_009858895.2_ASM985889v3_genomic_notail.fna > SARS_CoV-2_genome_chop.fa
+
+# need to convert to RNA
+sed 's/T/U/g' SARS_CoV-2_genome_chop.fa > SARS_CoV-2_genome_chop_.fa
+
+# now test this on the Lung_enhancers_hum_rename.fasta using triplexator
+
+# downloaded the Triplexator Virtual Machine (January 23, 2021, Version: ##) and then ran it as follows:
+cd /opt/triplexator/bin/triplexator
+
+/opt/triplexator/bin/triplexator -l 12 -of 1 -od /home/triplex/data/whole_genome_results_Jan24_2021 -o whole_genome_out_12 -po -p1 -ss /home/triplex/data/triplexator_results_Jan23_2021/genome_chop_jan24/SARS_CoV-2_genome_chop_.fa -ds /home/triplex/data/Lung_enhancers_hum_rename.fasta
+
+awk '{ print $1 " " $4 " " $7}'	whole_genome_out_12 > score_out.txt
+sed	-i -e "1d" score_out.txt
+
+# want only lines with "chr"
+grep -E 'chr' score_out.txt	> score_out2.txt
+awk '{print	$1}' score_out2.txt	| sort | uniq > list_out.txt
+
+awk '{print	$1 " " $2 " " $3}' whole_genome_chop_cutoff12 > test
+
+# remove blank lines
+awk 'NF' test > test1
+#remove	first line
+sed	-i -e "1d" test1
+
+# keep rows starting with "RNA" and "TFO"
+grep -E 'RNA|TFO' test1 > test2
+
+# deliminate at ":"
+awk	-F":" '$1=$1' test2	> test3
+#replace space with	tab
+sed 's/	/\t/g' test3 > test4
+
+awk	'BEGIN{FS="\t";OFS="\t"} ($1 == "TFO") {$1=$4}1' test4 > test5
+awk	'{print	$1}' test5 > test6
+sed	'1~2s/^/>/'	test6 > test7
+mv test7 cutoff12_genome.fa
+
+# Noticed there are also duplicate headers in here because some of the TFOs are in reverse and forward or longer/shorter etc.
+# Try to rename duplicates in the fasta BEFORE it goes to cd hit (https://www.biostars.org/p/368253/)
+
+perl -ne 'if (/^>/){@a=split /-/; $h{$a[0]}++; $a[0].= ".".$h{$a[0]}; $s=join "_", @a; print $s;}else{print	$_;}' <	cutoff12_genome.fa > No_duplicate_names_cutoff12_genome.fa
+
+# remove duplicates
+~/tools/cd-hit-v4.8.1-2019-0228/cd-hit -i No_duplicate_names_cutoff12_genome.fa -o Non_redundant_no_dupl_names_cutoff12_genome.fa -c	1.00 -p	1
+# 36 clusters
+
+# pull	the	headers	for	the	reference TFOs
+mkdir Feb14_newpull
+
+# keep rows with ">"	
+grep -E	'>'	../Non_redundant_no_dupl_names_cutoff12_genome.fa > list2_out.txt
+# 36
+
+# these all have .1_ and .2_ on the end so remove all that	
+# https://stackoverflow.com/questions/18602234/sed-to-remove-everything-after-in-file-using-command
+
+sed	"s/\..*//" list2_out.txt > list3_out.txt
+
+# make the list unique
+sort list3_out.txt | uniq > list4_out.txt
+# 18
+sed 's/>//g' list4_out.txt > list5out.txt
+# 18
+
+# the original fasta needs everything after	'-'	in the header trimmed
+sed	's/\-.*//' SARS_CoV-2_genome_chop_.fa > tester
+
+~/tools/seqkit grep -n -f list5out.txt tester > repull_windows_genome_non_redun.fasta 
+# 18 works
+
+# Feb 1, 2021 to get the proper # of edges, use the final reduced fasta to pull just those representative windows, then repeat triplexator and that should give a non-redundant interactions from there the edges can be examined
+
+/opt/triplexator/bin/triplexator -l 12 -of 1 -od /home/triplex/data/triplexator_results/wholes_genome/selected_structures_cut-off12_non-redundant -o pulled_whole_genome_out -po -p1 -ss /home/triplex/data/triplexator_results/wholes_genome/selected_structures_cut-off12_non-redundant/repull_windows_genome_non_redun.fasta -ds	/home/triplex/data/Lung_enhancers_hum_rename.fasta
+
+awk '{ print $1 " " $4 " " $7}' pulled_whole_genome_out	> score_out.txt
+sed -i -e "1d" score_out.txt
+
+# want only lines that start with RNA
+
+grep -E 'RNA' score_out.txt	> score_out2.txt
+
+# 2578 is total # of triplex targeting sites
+
+awk	'{print	$1}' score_out2.txt | sort | uniq -c | sort > score_out2_tracker.txt
+# 18
+
+awk -F"_E" '$2=$2' score_out2.txt > score_out3.txt
+# beware this removes rows with out ENSG annotations!
+
+awk '{print	$1 "\t" $2 "\t" "E"$3}' score_out3.txt > score_out4.txt
+
+awk	-F'[\t]' '{n=split($3,a,",");for (i=1;i<=n;i++) print $1"\t" $2"\t"a[i]}' score_out4.txt > score_out5.txt
+
+# make a list of all ENSGs and non-redundant ENSGs
+awk	'{print	$3}' score_out5.txt	> ENSG_out2.txt
+# 3468 total retrieved
+
+sort -u ENSG_out2.txt > Uniq_from_pulled_120window_ENSG.txt
+# 1940 non-redudant list of all ENSGs
+
+# The following is related to generating a list of ENSGs associated with each TFO
+# Need to parse out for each of the RNA's detected in this set
+
+#RNA_420_3001-3120:.RNA_420_sliding:3001-3120 (7) = svRNA-TFO-nsp3
+#RNA_420_1481-1600:.RNA_420_sliding:1481-1600 (48) = svRNA-TFO-nsp2
+#RNA_334_26161-26280:.RNA_334_sliding:26161-26280 (53) = svRNA-TFO-E
+#RNA_268_23161-23280:.RNA_268_sliding:23161-23280 (81) = svRNA-TFO-S.1
+#RNA_445_1241-1360:.RNA_445_sliding:1241-1360 (101) = svRNA-TFO-N
+#RNA_155_23801-23920:.RNA_155_sliding:23801-23920 (160) = svRNA-TFO-S.2
+
+# svRNA-TFO-nsp2
+# RNA_420_1481-1600
+
+grep 'RNA_420_1481-1600' score_out4.txt | awk '{print $2}'> RNA_420_1481-1600_ENSG_total.txt
+# 31
+
+# turn the ENSG into list, using ',' deliminator
+awk -F"," '{for(i=1;i<=NF;i++){print $i}}' RNA_420_1481-1600_ENSG_total.txt > RNA_420_1481-1600_ENSG_total2.txt
+# 46
+
+# create the Uniq list
+sort -u RNA_420_1481-1600_ENSG_total2.txt > Apr27_Uniq_RNA_420_1481-1600_ENSG_total2.txt
+# 44
+
+# svRNA-TFO-N
+# RNA_445_1241-1360
+grep 'RNA_445_1241-1360' score_out4.txt | awk '{print $2}'> RNA_445_1241-1360_ENSG_total.txt
+# 63
+
+# turn the ENSG into list, using ',' deliminator
+awk -F"," '{for(i=1;i<=NF;i++){print $i}}' RNA_445_1241-1360_ENSG_total.txt > RNA_445_1241-1360_ENSG_total2.txt
+# 123
+
+# create the Uniq list
+sort -u RNA_445_1241-1360_ENSG_total2.txt > Apr27_Uniq_RNA_445_1241-1360_ENSG_total2.txt
+# 115
+
+# svRNA-TFO-S.1
+# RNA_268_23161-23280 
+
+grep 'RNA_268_23161-23280' score_out4.txt | awk '{print $2}'> RNA_268_23161-23280_ENSG_total.txt
+# 47
+
+# turn the ENSG into list, using ',' deliminator
+awk -F"," '{for(i=1;i<=NF;i++){print $i}}' RNA_268_23161-23280_ENSG_total.txt > RRNA_268_23161-23280_ENSG_total2.txt
+# 90
+
+# create the Uniq list
+sort -u RRNA_268_23161-23280_ENSG_total2.txt > Apr27_Uniq_RNA_268_23161-23280_ENSG_total2.txt
+#85
+
+# svRNA-TFO-S.2
+# RNA_155_23801-23920 
+
+grep 'RNA_155_23801-23920' score_out4.txt | awk '{print $2}'> RNA_155_23801-23920_ENSG_total.txt
+# 86
+
+# turn the ENSG into list, using ',' deliminator
+awk -F"," '{for(i=1;i<=NF;i++){print $i}}' RNA_155_23801-23920_ENSG_total.txt > RNA_155_23801-23920_ENSG_total2.txt
+# 196
+
+# create the Uniq list
+sort -u RNA_155_23801-23920_ENSG_total2.txt > Oct32025_Uniq_RNA_155_23801-23920_ENSG_total2.txt
+# 84
+
+# combine all uniq ENSG from all predicted 6 svRNA-TFOs
+
+grep -E 'RNA_420_3001-3120|RNA_420_1481-1600|RNA_334_26161-26280|RNA_268_23161-23280|RNA_445_1241-1360|RNA_155_23801-23920' score_out4.txt | awk '{print $2}'> six_svRNA_ENSG_total.txt
+# 263 # this is the list
+
+grep -E 'RNA_420_3001-3120|RNA_420_1481-1600|RNA_334_26161-26280|RNA_268_23161-23280|RNA_445_1241-1360|RNA_155_23801-23920' score_out4.txt > Oct32025_forvenn_svRNA_TFOs_ENSGs.txt
+# 263 this is the table
+
+awk -F"," '{for(i=1;i<=NF;i++){print $i}}' six_svRNA_ENSG_total.txt > six_svRNA_ENSG_total2.txt
+# 524
+
+sort -u six_svRNA_ENSG_total2.txt > six_svRNA_ENSG_total2_uniq.txt
+# 375
+
+# https://www.unix.com/shell-programming-and-scripting/235115-split-text-separated-column-into-multiple-columns.html - below command splits multiple ENSGs assigned to a TFO into separate lines
+
+awk -F"\t" '{n=split($2,a,",");for (i=1;i<=n;i++) print $1"\t"a[i]}' Oct32025_forvenn_svRNA_TFOs_ENSGs.txt > All_targets_six_svRNA_TFOs.txt
+
+
+##---------------------------------------------------------------------------
+##		Conversion of Ensemble gene IDs to universial gene identifiers		-
+##---------------------------------------------------------------------------
+
+# from here the list of Ensemble gene IDs (ENSGs) to UniProtKB universal gene identifiers with the UniProt Retrive/ID mapping tool (uniprot.org)
+
+# with focus on genes with unique gene symboles, these gene targets were cross-referenced against three transcriptome data sets to identify putative target genes that, during infection with SARS-CoV-2, were observed to have significantly differential gene expression (either up or down) in Calu3 cells (GSE148726, GSE147507), lungs (GSE147507), or whole blood of patients with severe COVID-19 (GSE17110).
+
+# also see the R script "20251101_DEG_Venn_Enrichment_PaulsonAR_2025.R " for details on visualizing the putative target gene's gene identifiers as Venn diagrams, which is presented in the supplemental information with the manuscript.
+
+# similarly create an enrichment set for the TFOs that were not associated with svRNAs - this is used later for a control in the enrichment analysis
+
+RNA_155_21601-21720:.RNA_155_sliding:21601-21720 (38) = TFO_S.1
+RNA_155_21601-21720:.RNA_155_sliding:21601-21720 (38) = TFO_S.1
+RNA_420_1121-1240:.RNA_420_sliding:1121-1240 (79) = TFO_nsp2.1
+RNA_155_15561-15680:.RNA_155_sliding:15561-15680 (80) = TFO_nsp12
+RNA_420_1921-2040:.RNA_420_sliding:1921-2040 (91) = TFO_nsp2.2
+RNA_155_21881-22000:.RNA_155_sliding:21881-22000 (97) = TFO_S.2
+RNA_334_25521-25640:.RNA_334_sliding:25521-25640 (102) = TFO_ORF3a.1
+RNA_155_9081-9200:.RNA_155_sliding:9081-9200 (106) = TFO_nsp4
+RNA_155_19761-19880:.RNA_155_sliding:19761-19880 (110) = TFO_nsp15
+RNA_334_25601-25720:.RNA_334_sliding:25601-25720 (130) = TFO_ORF3a.2
+RNA_155_5761-5880:.RNA_155_sliding:5761-5880 (133) = TFO_nsp3
+RNA_155_11041-11160:.RNA_155_sliding:11041-11160 (527) = TFO_nsp6.1
+RNA_155_11641-11760:.RNA_155_sliding:11641-11760 (635) = TFO_nsp6.2
+
+grep -E 'RNA_155_21601-21720|RNA_420_1121-1240|RNA_155_15561-15680|RNA_420_1921-2040|RNA_155_21881-22000|RNA_334_25521-25640|RNA_155_9081-9200|RNA_155_19761-19880|RNA_334_25601-25720|RNA_155_5761-5880|RNA_155_11041-11160|RNA_155_11641-11760' score_out4.txt | awk '{print $2}'> twelve_non-svRNA_ENSG_total.txt
+# 1380 this is the ENSG List
+
+grep -E 'RNA_155_21601-21720|RNA_420_1121-1240|RNA_155_15561-15680|RNA_420_1921-2040|RNA_155_21881-22000|RNA_334_25521-25640|RNA_155_9081-9200|RNA_155_19761-19880|RNA_334_25601-25720|RNA_155_5761-5880|RNA_155_11041-11160|RNA_155_11641-11760' score_out4.txt > Oct52025_twelve_forvenn_NOTsvRNA_TFOs_ENSGs.txt
+# 1380 this is the table 
+
+# this makes each a row
+awk -F"\t" '{n=split($2,a,",");for (i=1;i<=n;i++) print $1"\t"a[i]}' Oct52025_twelve_forvenn_NOTsvRNA_TFOs_ENSGs.txt > Oct52025_non_svRNAs_check2.txt
+
+# this sorts by TFO name for easy separating
+sort -k 1,1 Oct52025_non_svRNAs_check2.txt > Oct52025_twelve_forvenn_NOTsvRNA_TFOs_ENSGs2.txt
+
+awk -F"," '{for(i=1;i<=NF;i++){print $i}}' twelve_non-svRNA_ENSG_total.txt > twelve_non-svRNA_ENSG_total2.txt
+# 2944
+
+sort -u twelve_non-svRNA_ENSG_total2.txt > nonsvRNA_TFO_targets.txt
+# 1712
+
+# for next steps see the R script "20251101_DEG_Venn_Enrichment_PaulsonAR_2025.R" for details on the enrichment analysis.
+
+###END
