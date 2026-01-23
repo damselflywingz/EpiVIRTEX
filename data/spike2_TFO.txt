@@ -1,0 +1,3 @@
+chromosome	start	end	
+S	2388	2400	
+			

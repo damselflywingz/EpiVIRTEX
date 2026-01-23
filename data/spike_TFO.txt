@@ -1,0 +1,3 @@
+chromosome	start	end	
+S	1773	1784	
+			
