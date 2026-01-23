@@ -1,0 +1,9 @@
+Host	GenomeSize
+Rhinolophus_ferrumequinum	2075768562
+Nyctereutes_procyonoides	2387097583
+Manis_pentadactyla	2840164579
+Homo_sapien	3298430636
+Paguma_larvata	2415620120
+Hystrix_brachyura	2257332368
+Gallus_gallus	1053332251
+Diadophis_punctatus_similis	1783023707
