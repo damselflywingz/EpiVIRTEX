@@ -1,0 +1,29 @@
+start	end	Type	Name	Reference
+6766	6789	HIS_svRNA	HIS-SARS2-3	Li et al. 2022
+7570	7595	HIS_svRNA	HIS-SARS2-1	Li et al. 2022
+8610	8633	HIS_svRNA	HIS-SARS2-5	Li et al. 2022
+12494	12517	HIS_svRNA	HIS-SARS2-2	Li et al. 2022
+29860	29886	HIS_svRNA	HIS-SARS2-4	Li et al. 2022
+2129	2151	miRNA	CvmiR-5-5p	Zhao et al. 2022
+3050	3067	miRNA	svRNA_nsp3.1	Morales et al. 2017
+27409	27430	miRNA	CoV2-miR-O7a	Pawlica et al. 2021; Singh et al. 2022
+28064	28087	miRNA	CoV2-miR-O8	Tucker et al. 2024
+28612	28630	miRNA	svRNA-N	Morales et al. 2017
+1130	1141	TFO	TFO_nsp2	This study
+1629	1640	svRNA_TFO	svRNA_TFO_nsp2	This study
+2072	2083	TFO	TFO_nsp2	This study
+3074	3085	svRNA_TFO	svRNA_TFO_nsp3	This study
+5920	5932	TFO	TFO_nsp3	This study
+9247	9258	TFO	TFO_nsp4	This study
+11174	11187	TFO	TFO_nsp6	This study
+11795	11811	TFO	TFO_nsp6	This study
+15726	15737	TFO	TFO_nsp12	This study
+19916	19927	TFO	TFO_nsp15	This study
+21731	21742	TFO	TFO_S	This study
+21980	21992	TFO	TFO_S	This study
+23335	23346	svRNA_TFO	svRNA_TFO_S.1	This study
+23950	23962	svRNA_TFO	svRNA_TFO_S.2	This study
+25643	25655	TFO	TFO_ORF3a	This study
+25700	25711	TFO	TFO_ORF3a	This study
+26296	26307	svRNA_TFO	svRNA_TFO_E	This study
+29387	29399	svRNA_TFO	svRNA_TFO_N	This study
