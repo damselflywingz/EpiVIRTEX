@@ -30,7 +30,7 @@
 ##                                Venn diagrams                           -
 ##-------------------------------------------------------------------------
 
-# adapted from o https://www.r-graph-gallery.com/14-venn-diagramm.html using lists of ASVs from the whole and dissected.
+# adapted from https://www.r-graph-gallery.com/14-venn-diagramm.html
 
 # install.packages("VennDiagram")
 library(VennDiagram)
@@ -755,3 +755,4 @@ sessionInfo()
 # other attached packages:
 #   [1] VennDiagram_1.7.3   futile.logger_1.4.3 RColorBrewer_1.1-3  here_1.0.1         
 # [5] ggplot2_3.4.4      
+
