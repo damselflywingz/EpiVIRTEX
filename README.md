@@ -9,7 +9,7 @@ This README provides scripts and other resources used for data analysis and visu
 
 For more information about the EpiVIRTEX pipeline please see the materials and methods of the manuscript.
 
-## Built With 
+## *Built with*
 
 * [ViennaRNA](https://www.tbi.univie.ac.at/RNA/), [HuntMi](http://adaa.polsl.pl/agudys/huntmi/huntmi.htm) and [Mature Bayes](https://mirna.imbb.forth.gr/MatureBayes.html) were used to predict microRNA from virus sub-genomic RNA
 * [Triplexator](https://github.com/Gurado/triplexator) was used to predict triplex-forming oligonucleotides from virus genome
@@ -19,7 +19,7 @@ For more information about the EpiVIRTEX pipeline please see the materials and m
 * [IQ-TREE 2](https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.blastn_application_options/) was used for phylogenetic reconstructions
 * [ggplot2](https://ggplot2.tidyverse.org/) was used to visualize the results of our functional genomics analysis
 
-## Getting Started
+## *Getting started*
 
 To get started:
 
@@ -27,7 +27,7 @@ To get started:
 2. Open the R Project "Paulson_AR_SARS_ncRNA-analysis.Rproj" in RStudio;</li>
 3. Follow the scripts provided (see: https://github.com/damselflywingz/EpiVIRTEX/tree/master/Scripts)
 
-## Small RNA-sequencing analysis
+## *Small RNA-sequencing analysis*
 
 The analysis involves:
 
@@ -35,7 +35,7 @@ The analysis involves:
 * To avoid processing of raw reads, the count data from bedtools genomecov for each of the [Wyler et al. 2021](https://www.cell.com/iscience/fulltext/S2589-0042(21)00119-X?elqTrackId=a5fb8ddc3ea24283adca366859fed54e) small RNA-seq libraries have also been provided in [EpiVIRTEX/data/small_RNAseq_counts](https://github.com/damselflywingz/EpiVIRTEX/tree/master/data/small_RNAseq_counts).
 * See the manuscript and refer to [Updated20240121__2022_15_15_script_smallRNA_calu_3_proc_align_quant_S1_and_S2.R](https://github.com/damselflywingz/EpiVIRTEX/tree/master/Scripts/Updated20240121__2022_15_15_script_smallRNA_calu_3_proc_align_quant_S1_and_S2.R) for more information.
  
-## Predicting microRNA and triplex-forming oligonucleotides from viral sequences
+## *Predicting microRNA and triplex-forming oligonucleotides from viral sequences*
 
 The prediction pipeline involves:
 
@@ -44,43 +44,44 @@ The prediction pipeline involves:
 * Using Triplexator to predict triplex-forming oligonucleotides (TFOs) in SARS-CoV-2 Wuhan-Hu-1 reference genome (NC_045512.2) compared to known enhancer sequences from human lungs [Enahncer Atlas](http://www.enhanceratlas.org/indexv1.php).
 * See manuscript and refer to [EpiVIRTEX/Scripts/20250909_Epi-VIRTEX_miRNA_predictions.script.txt](https://github.com/damselflywingz/EpiVIRTEX/tree/master/Scripts/20250909_Epi-VIRTEX_miRNA_prediction.script.txt) for more information.
 
-## Recombination breakpoint and hotspot analysis
+## *Recombination breakpoint and hotspot analysis*
 
 This analysis involves:
 
 * Using the R Stats Package to run permutation for testing non-random association between TFOs of concern and known genomic recombination breakpoints and hotspots reported in [Lytras et al. 2022](https://academic.oup.com/gbe/article/14/2/evac018/6524630).
 * See the manuscript and refer to [EpiVIRTEX/Scripts/20240308_random_breakpoint_script.R](https://github.com/damselflywingz/EpiVIRTEX/tree/master/Scripts/20240308_random_breakpoint_script.R) for more information.
 
-## Host-homology searches and visualization
+## *Host-homology searches and visualization*
 
 This analysis involves:
 
 * Running short-BLASTn searches for matches between the genomes of SARS-CoV-2 (Wuhan-Hu-1) or SARS-CoV-1 (Tor2) and the reference genomes of several host animals.
 * See the manuscript and refer to [EpiVIRTEX/Scripts/20240308_R_script_blast_results_heatmap_PCA.R](https://github.com/damselflywingz/EpiVIRTEX/tree/master/Scripts/20240308_R_script_blast_results_heatmap_PCA.R) for more information.
 
-## Synonymous-site conservation analysis and combined genomic visualization
+## *Synonymous-site conservation analysis and combined genomic visualization*
 
 This analysis involves:
 
 * Multiple sequence alignment, phylogenetic reconstruction and visualization, tip label extraction, and synonymous-site conservation analysis.
 * See the manuscript and refer to [EpiVIRTEX/Scripts/20240905_SynPlot2_Align_tree.R](https://github.com/damselflywingz/EpiVIRTEX/tree/master/Scripts/20240905_SynPlot2_Align_tree.R) for more information.
 
-## Venn diagrams for potential TFO targets and enrichment analysis
+## *Venn diagrams for potential TFO targets and enrichment analysis*
 
 This analysis involves:
 
 * Visualization of gene-target lists in Venn Diagrams combining three different SARS-CoV-2 transcriptome studies and enrichment analysis.
 * See the manuscript and refer to [EpiVIRTEX/Scripts/20251101_DEG_Venn_Enrichment_PaulsonAR_2025.R](https://github.com/damselflywingz/EpiVIRTEX/tree/master/Scripts/20251101_DEG_Venn_Enrichment_PaulsonAR_2025.R) for more information.
 
-## Contact
+## *Contact*
 
 Amber Paulson - Amber[dot]Rose[dot]Paulson[at]gmail[dot]com
 
 Project Link: [https://github.com/damselflywingz/EpiVIRTEX/](https://github.com/damselflywingz/EpiVIRTEX)
 
-## Licensing and copyright
+## *Licensing and copyright*
 
 Licensed under Creative Commons Attribution 4.0 International (CC-BY-NC 4.0)
 
 [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/)
+
 
