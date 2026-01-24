@@ -162,7 +162,7 @@ tr -d ' ' <~/tools/Sep3_HuntMi_scratch/data/20250911_UCSC_Wuhan_sgRNA_parseout3_
 
 # worked 223 sequences September 2025 this file was screened with MB
 
-#Just to be	quicker	I converted	this to	RNA	and	then uploaded the fasta	to the MatureBayes and copied the result
+#converted	to	RNA	and	then uploaded the fasta	to the MatureBayes and copied the results
 ~/tools/seqkit	seq	--dna2rna	~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/	20250911_UCSC_Wuhan_win120_slide20_REDO_pre-mirna_2MatureBayes.fa > ~/tools/Sep3_HuntMi_scratch/2025_Sep_10_UCSC_REDO/Slide20/20250911_UCSC_Wuhan_win120_slide20_REDO_pre-mirna_2MatureBayesRNA.fa
 
 
@@ -406,5 +406,6 @@ sort -u twelve_non-svRNA_ENSG_total2.txt > nonsvRNA_TFO_targets.txt
 # 1712
 
 # for next steps see the R script "20251101_DEG_Venn_Enrichment_PaulsonAR_2025.R" for details on the enrichment analysis.
+
 
 ###END
