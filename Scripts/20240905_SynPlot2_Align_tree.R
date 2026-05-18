@@ -2116,38 +2116,4 @@ multiplot(Plot_E_bottom_20_N2, Plot_E_bottom_20_N2_S1, cols=1)
 #other attached packages:
 #  [1] scales_1.2.1        caTools_1.18.2      tidyr_1.3.0         dplyr_1.1.2         ggplot2_3.4.4       ggtree_3.6.2       
 #[7] phyloseq_1.42.0     phangorn_2.11.1     ape_5.7-1           DECIPHER_2.26.0     RSQLite_2.3.3       here_1.0.1         
-#[13] Biostrings_2.66.0   GenomeInfoDb_1.34.9 XVector_0.38.0      IRanges_2.32.0      S4Vectors_0.36.2    BiocGenerics_0.44.0
-
-#loaded via a namespace (and not attached):
-#  [1] genomation_1.30.0           fastmatch_1.1-4             plyr_1.8.8                  igraph_1.5.1               
-#[5] lazyeval_0.2.2              splines_4.2.1               BiocParallel_1.32.6         usethis_2.2.2              
-#[9] gridBase_0.4-7              digest_0.6.33               foreach_1.5.2               yulab.utils_0.1.0          
-#[13] htmltools_0.5.7             fansi_1.0.4                 magrittr_2.0.3              memoise_2.0.1              
-#[17] BSgenome_1.66.3             cluster_2.1.3               tzdb_0.4.0                  remotes_2.4.2.1            
-#[21] readr_2.1.4                 matrixStats_1.1.0           prettyunits_1.2.0           colorspace_2.1-0           
-#[25] blob_1.2.4                  callr_3.7.3                 crayon_1.5.2                RCurl_1.98-1.12            
-#[29] jsonlite_1.8.7              impute_1.72.3               survival_3.3-1              iterators_1.0.14           
-#[33] glue_1.6.2                  gtable_0.3.4                zlibbioc_1.44.0             DelayedArray_0.23.2        
-#[37] pkgbuild_1.4.2              Rhdf5lib_1.20.0             DBI_1.1.3                   miniUI_0.1.1.1             
-#[41] Rcpp_1.0.11                 plotrix_3.8-4               xtable_1.8-4                gridGraphics_0.5-1         
-#[45] tidytree_0.4.5              bit_4.0.5                   profvis_0.3.8               htmlwidgets_1.6.3          
-#[49] ellipsis_0.3.2              farver_2.1.1                urlchecker_1.0.1            pkgconfig_2.0.3            
-#[53] XML_3.99-0.15               utf8_1.2.3                  labeling_0.4.3              ggplotify_0.1.2            
-#[57] tidyselect_1.2.0            rlang_1.1.1                 reshape2_1.4.4              later_1.3.1                
-#[61] munsell_0.5.0               tools_4.2.1                 cachem_1.0.8                cli_3.6.1                  
-#[65] generics_0.1.3              ade4_1.7-22                 devtools_2.4.5              biomformat_1.26.0          
-#[69] stringr_1.5.1               fastmap_1.1.1               yaml_2.3.7                  processx_3.8.2             
-#[73] bit64_4.0.5                 fs_1.6.3                    purrr_1.0.1                 nlme_3.1-157               
-#[77] mime_0.12                   aplot_0.2.2                 compiler_4.2.1              rstudioapi_0.15.0          
-#[81] treeio_1.22.0               tibble_3.2.1                stringi_1.7.12              ps_1.7.5                   
-#[85] lattice_0.20-45             Matrix_1.6-3                vegan_2.6-4                 permute_0.9-7              
-#[89] multtest_2.54.0             vctrs_0.6.3                 pillar_1.9.0                lifecycle_1.0.4            
-#[93] rhdf5filters_1.10.1         BiocManager_1.30.22         data.table_1.14.8           bitops_1.0-7               
-#[97] httpuv_1.6.12               patchwork_1.1.3             rtracklayer_1.58.0          GenomicRanges_1.50.2       
-#[101] R6_2.5.1                    BiocIO_1.8.0                promises_1.2.1              KernSmooth_2.23-20         
-#[105] sessioninfo_1.2.2           codetools_0.2-18            MASS_7.3-57                 pkgload_1.3.3              
-#[109] rhdf5_2.42.1                SummarizedExperiment_1.28.0 rprojroot_2.0.4             rjson_0.2.21               
-#[113] withr_2.5.2                 GenomicAlignments_1.34.1    Rsamtools_2.14.0            GenomeInfoDbData_1.2.9     
-#[117] hms_1.1.3                   mgcv_1.8-40                 quadprog_1.5-8              ggfun_0.1.3                
-#[121] MatrixGenerics_1.10.0       seqPattern_1.30.0           Biobase_2.58.0              shiny_1.8.0                
-#[125] restfulr_0.0.15         
+#[13] Biostrings_2.66.0   GenomeInfoDb_1.34.9 XVector_0.38.0      IRanges_2.32.0      S4Vectors_0.36.2    BiocGenerics_0.44.0        
