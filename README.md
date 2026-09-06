@@ -5,9 +5,9 @@
 # Epigenetic Viral Interference through RNA Triplex Exploration
 
 ## *Introduction*
-This README provides scripts and other resources used for data analysis and visualization from: <i>Paulson A.R., Montoya V., and Joy, J.B. 2025. Functional  genomic analysis reveals mechanisms of epigenetic interference in SARS-CoV-1 and SARS-CoV-2</i>. 
+This README provides scripts and other resources used for data analysis and visualization from: <i>Paulson A.R., Montoya V., and Joy, J.B. 2026. Functional genomic evidence for candidate small viral RNA-mediated epigenetic interference in SARS-CoV-1 and SARS-CoV-2</i>. 
 
-See preprint: [https://doi.org/10.64898/2026.01.28.702465](https://doi.org/10.64898/2026.01.28.702465)
+See Journal Article in Vol 35. Issue 1 Computational and Structural Biotechnology Journal: [https://doi.org/10.34133/csbj.0148](https://spj.science.org/doi/10.34133/csbj.0148)
 
 For more information about the EpiVIRTEX pipeline please see the materials and methods of the manuscript.
 
